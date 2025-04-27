@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Home</title>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="" />
+  <style>
+    :root {
+      --primary-color: rgba(255, 255, 255, 0.9);
+      --secondary-color: #5abf9d;
+      --hover-color: #5abf9d;
+      --text-color: hsl(0, 0%, 0%);
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('images/slide2.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--primary-color);
+      padding: 15px 5%;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo img {
+      height: 50px;
+      transition: var(--transition);
+    }
+
+    .logo img:hover {
+      transform: rotate(5deg) scale(1.05);
+    }
+
+    .logo span {
+      color: #27ae60;
+      font-family: "KaiTi", "楷体", "楷体_GB2312", serif;
+      text-shadow: 1px 1px 0 #fff, 2px 2px 0 #999, 3px 3px 5px rgba(0, 0, 0, 0.3);
+      font-size: 66px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 8px 15px;
+      border-radius: 4px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    nav ul li a:hover {
+      color: var(--text-color);
+      background-color: var(--secondary-color);
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: var(--secondary-color);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+
+    nav ul li a:hover::after {
+      width: 80%;
+    }
+
+    .active {
+      background-color: var(--secondary-color);
+    }
+
+    .hamburger {
+      display: none;
+      cursor: pointer;
+    }
+
+    /* 轮播图样式 */
+    .banner {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      max-height: 600px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .slides li {
+      position: relative;
+      width: 33.333%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5%;
+      box-sizing: border-box;
+    }
+
+    .banner-w3lstext {
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .show-text {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .banner-w3lstext h2 {
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+      line-height: 1.3;
+    }
+
+    .banner-w3lstext p {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      color: #34495e;
+      margin-bottom: 0;
+    }
+
+    /* 按钮控制器 */
+    .slider-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .slider-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .slide-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.7;
+      z-index: -1;
+    }
+
+    .slider-btn.active {
+      background-color: var(--secondary-color);
+      transform: scale(1.2);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .banner-w3lstext h2 {
+        font-size: 2.2rem;
+      }
+
+      .banner-w3lstext p {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logo span {
+        font-size: 48px;
+      }
+
+      .banner {
+        height: 60vh;
+      }
+
+      .banner-w3lstext {
+        padding: 1.5rem;
+      }
+
+      .banner-w3lstext h2 {
+        font-size: 1.8rem;
+      }
+
+      .banner-w3lstext p {
+        font-size: 1rem;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      nav ul {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background-color: var(--primary-color);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        transition: var(--transition);
+      }
+
+      nav ul.active {
+        left: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo span {
+        font-size: 36px;
+      }
+
+      .banner {
+        height: 50vh;
+      }
+
+      .banner-w3lstext {
+        padding: 1rem;
+        max-width: 90%;
+      }
+
+      .banner-w3lstext h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .banner-w3lstext p {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Logo">
+      <span>绿碳hahahahaah</span>
+    </div>
+    <nav>
+      <ul>
+        <!-- 在所有页面统一使用以下路径 -->
+        <li><a href="index.html" class="nav-link footprint">首页</a></li>
+        <li><a href="concept.html" class="nav-link concept">绿碳相关概念</a></li>
+        <li><a href="policy.html" class="nav-link policy">国家政策</a></li>
+        <li><a href="hhh.html" class="nav-link footprint">个人碳足迹</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="banner" style="background-image: url('baohu.png');">
+    <ul class="slides">
+      <li>
+        <div class="slide-bg"></div>
+        <div class="banner-w3lstext">
+          <h2><strong>为地球按下暂停键</strong></h2>
+          <p class="two-line-text"><strong>每吨碳排放都是地球的眼泪，致力用数据可视化揭开碳足迹的面纱让不可见的污染无所遁形</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="slide-bg" style="background-image: url('images/slide2.jpg');"></div>
+        <div class="banner-w3lstext">
+          <h2><strong>此刻就是转折点</strong></h2>
+          <p class="two-line-text"><strong>精确的碳管理不再是选择而是生存必需，将气候数据转为清晰的行动指南让每个企业都能成为气候英雄</strong></p>
+        </div>
+      </li>
+      <li>
+        <div class="slide-bg" style="background-image: url('images/slide3.jpg');"></div>
+        <div class="banner-w3lstext">
+          <h2><strong>用像素守护净土</strong></h2>
+          <p class="two-line-text"><strong>我们让枯燥的碳排放数字化作直观的生态预警图，因为只有被看见的污染，才会被真正解决。</strong></p>
+        </div>
+      </li>
+    </ul>
+    <div class="slider-controls">
+      <button class="slider-btn" data-slide="0"></button>
+      <button class="slider-btn" data-slide="1"></button>
+      <button class="slider-btn" data-slide="2"></button>
+    </div>
+  </div>
+
+  <script>
+    // 获取DOM元素
+    const slides = document.querySelector('.slides');
+    const slideBtns = document.querySelectorAll('.slider-btn');
+
+    // 初始化当前幻灯片索引
+    let currentSlide = 0;
+
+    // 初始化
+    function initSlider() {
+      // 隐藏所有文本
+      document.querySelectorAll('.banner-w3lstext').forEach(text => {
+        text.classList.remove('show-text');
+      });
+      // 显示当前文本
+      document.querySelectorAll('.banner-w3lstext')[0].classList.add('show-text');
+      // 设置当前按钮为激活状态
+      slideBtns[0].classList.add('active');
+    }
+
+    // 上一张幻灯片
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + 3) % 3;
+      updateSlider();
+    }
+
+    // 下一张幻灯片
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % 3;
+      updateSlider();
+    }
+
+    // 更新幻灯片显示
+    function updateSlider() {
+      // 移动幻灯片
+      slides.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+
+      // 隐藏所有文本
+      document.querySelectorAll('.banner-w3lstext').forEach(text => {
+        text.classList.remove('show-text');
+      });
+
+      // 清除所有按钮的激活状态
+      slideBtns.forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // 显示当前文本并设置按钮为激活状态
+      setTimeout(() => {
+        document.querySelectorAll('.banner-w3lstext')[currentSlide].classList.add('show-text');
+      }, 300);
+
+      slideBtns[currentSlide].classList.add('active');
+    }
+
+    // 为按钮添加点击事件
+    slideBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentSlide = parseInt(btn.dataset.slide);
+        updateSlider();
+      });
+    });
+
+    // 自动轮播
+    function autoSlide() {
+      clearInterval(intervalId);
+      intervalId = setInterval(() => {
+        nextSlide();
+      }, 5000);
+    }
+
+    // 启动自动轮播
+    let intervalId = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    // 初始化轮播
+    initSlider();
+
+    // 添加事件监听器来处理自动轮播的暂停和恢复
+    slides.addEventListener('mouseenter', () => {
+      clearInterval(intervalId);
+    });
+
+    slides.addEventListener('mouseleave', autoSlide);
+  </script>
+
+  <!-- 其他内容区域 -->
+
+</body>
+
+</html>
